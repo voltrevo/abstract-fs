@@ -33,5 +33,9 @@
     "prepublish": "gulp prepublish",
     "test": "gulp"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "eslint-config-voltrevo": "0.0.3",
+    "eslint-plugin-require-path-exists": "^1.0.15"
+  }
 }
