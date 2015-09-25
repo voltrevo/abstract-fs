@@ -5,6 +5,9 @@
 // core modules
 var assert = require('assert');
 
+// local modules
+var thenChain = require('../util/thenChain.js');
+
 var dir = undefined;
 
 var setupDir = function(Dir) {
@@ -67,19 +70,14 @@ module.exports = function(Dir) {
       });
 
       it('foo can be deleted', function() {
-        return foo.write(new Buffer('')).then(
-          foo.exists
-        ).then(
+        return thenChain(foo.write(new Buffer('')), [
+          foo.exists,
+          assert,
+          foo.delete,
+          foo.exists,
+          negate,
           assert
-        ).then(
-          foo.delete
-        ).then(
-          foo.exists
-        ).then(
-          negate
-        ).then(
-          assert
-        );
+        ]);
       });
     });
   });
