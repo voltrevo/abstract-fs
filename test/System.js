@@ -8,6 +8,7 @@ var path = require('path');
 
 // local modules
 var abstractFs = require('../lib/index.js');
+var testAfs = require('./testAfs.js');
 var TestDirPath = require('./TestDirPath.js');
 
 // transformed modules
@@ -47,5 +48,9 @@ describe('System', function() {
     }).then(function(fooBuf) {
       assert(fooBuf.toString() === 'bar');
     });
+  });
+
+  testAfs(function() {
+    return TestDirPath().then(abstractFs.System);
   });
 });
