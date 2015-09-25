@@ -10,13 +10,13 @@ var path = require('path');
 var thenifyAll = require('thenify-all');
 
 // local modules
-var abstractFs = require('../lib');
+var abstractFs = require('../lib/index.js');
 
 // transformed modules
 var fs = thenifyAll(
   require('fs'),
   {},
-  ['lstat']
+  ['lstat', 'readFile']
 );
 
 var tmp = thenifyAll(
@@ -43,32 +43,33 @@ var nextDir = (function() {
 
 describe('abstract-fs', function() {
   var dirPath = undefined;
+  var dir = undefined;
 
   beforeEach(function() {
     return nextDir().then(function(nd) {
       dirPath = nd;
+      dir = abstractFs.System(dirPath);
     });
   });
 
   afterEach(function() {
     dirPath = undefined;
+    dir = undefined;
   });
 
   it('can create a directory', function() {
-    return abstractFs.System(dirPath).create().then(function() {
+    return dir.create().then(function() {
       return fs.lstat(dirPath);
     }).then(function(stats) {
       assert(stats.isDirectory());
     });
   });
 
-  /*
   it('can write a file to a directory', function() {
-    return abstractFs.System(nextDir()).then(function(dir) {
-      return dir.File('foo').write(new Buffer('bar'));
-    }).then(function() {
-      // TODO: assert foo created with content 'bar'
+    return dir.File('foo').write(new Buffer('bar')).then(function() {
+      return fs.readFile(path.join(dirPath, 'foo'));
+    }).then(function(fooBuf) {
+      assert(fooBuf.toString() === 'bar');
     });
   });
-  */
 });
