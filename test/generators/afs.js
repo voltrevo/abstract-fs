@@ -32,17 +32,17 @@ module.exports = function(Dir) {
     });
 
     it('doesn\'t exist yet', function() {
-      return dir.exists().then(function(exists) {
-        assert(!exists);
-      });
+      return thenChain(dir.exists(), [
+        negate,
+        assert
+      ]);
     });
 
     it('can be created', function() {
-      return dir.create().then(function() {
-        return dir.exists();
-      }).then(function(exists) {
-        assert(exists);
-      });
+      return thenChain(dir.create(), [
+        dir.exists,
+        assert
+      ]);
     });
 
     describe('file foo', function() {
@@ -60,13 +60,17 @@ module.exports = function(Dir) {
       });
 
       it('doesn\'t exist yet', function() {
-        return foo.exists().then(negate).then(assert);
+        return thenChain(foo.exists(), [
+          negate,
+          assert
+        ]);
       });
 
       it('foo can be created', function() {
-        return foo.write(new Buffer('')).then(function() {
-          return foo.exists().then(assert);
-        });
+        return thenChain(foo.write(new Buffer('')), [
+          foo.exists,
+          assert
+        ]);
       });
 
       it('foo can be deleted', function() {
