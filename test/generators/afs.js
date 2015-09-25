@@ -65,6 +65,22 @@ module.exports = function(Dir) {
           return foo.exists().then(assert);
         });
       });
+
+      it('foo can be deleted', function() {
+        return foo.write(new Buffer('')).then(
+          foo.exists
+        ).then(
+          assert
+        ).then(
+          foo.delete
+        ).then(
+          foo.exists
+        ).then(
+          negate
+        ).then(
+          assert
+        );
+      });
     });
   });
 };
