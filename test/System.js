@@ -6,60 +6,36 @@
 var assert = require('assert');
 var path = require('path');
 
-// community modules
-var thenifyAll = require('thenify-all');
-
 // local modules
 var abstractFs = require('../lib/index.js');
+var TestDirPath = require('./TestDirPath.js');
 
 // transformed modules
-var fs = thenifyAll(
+var fs = require('thenify-all')(
   require('fs'),
   {},
   ['lstat', 'readFile']
 );
 
-var tmp = thenifyAll(
-  require('tmp'),
-  {},
-  ['dir']
-);
-
-var tmpDirPath = tmp.dir({
-  unsafeCleanup: true
-}).then(function(res) {
-  return res[0];
-});
-
-var nextDir = (function() {
-  var counter = 0;
-
-  return function() {
-    return tmpDirPath.then(function(tdp) {
-      return path.join(tdp, 'testDir' + counter++);
-    });
-  };
-})();
-
 describe('System', function() {
-  var dirPath = undefined;
+  var testDirPath = undefined;
   var dir = undefined;
 
   beforeEach(function() {
-    return nextDir().then(function(nd) {
-      dirPath = nd;
-      dir = abstractFs.System(dirPath);
+    return TestDirPath().then(function(tdp) {
+      testDirPath = tdp;
+      dir = abstractFs.System(testDirPath);
     });
   });
 
   afterEach(function() {
-    dirPath = undefined;
+    testDirPath = undefined;
     dir = undefined;
   });
 
   it('can create a directory', function() {
     return dir.create().then(function() {
-      return fs.lstat(dirPath);
+      return fs.lstat(testDirPath);
     }).then(function(stats) {
       assert(stats.isDirectory());
     });
@@ -67,7 +43,7 @@ describe('System', function() {
 
   it('can write a file to a directory', function() {
     return dir.File('foo').write(new Buffer('bar')).then(function() {
-      return fs.readFile(path.join(dirPath, 'foo'));
+      return fs.readFile(path.join(testDirPath, 'foo'));
     }).then(function(fooBuf) {
       assert(fooBuf.toString() === 'bar');
     });
