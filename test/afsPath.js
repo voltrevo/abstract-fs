@@ -10,4 +10,16 @@ describe('afsPath', function() {
   it('foo is valid', function() {
     assert(afsPath.check('foo'));
   });
+
+  it('foo/bar is valid', function() {
+    assert(afsPath.check('foo/bar'));
+  });
+
+  it('/foo is invalid', function() {
+    assert(!afsPath.check('/foo'));
+  });
+
+  it('foo/ is invalid', function() {
+    assert(!afsPath.check('foo/'));
+  });
 });
