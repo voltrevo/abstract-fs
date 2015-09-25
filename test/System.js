@@ -8,8 +8,8 @@ var path = require('path');
 
 // local modules
 var abstractFs = require('../lib/index.js');
-var testAfs = require('./testAfs.js');
-var TestDirPath = require('./TestDirPath.js');
+var testAfs = require('./generators/afs.js');
+var TestDirPath = require('./util/TestDirPath.js');
 
 // transformed modules
 var fs = require('thenify-all')(
