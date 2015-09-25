@@ -41,7 +41,7 @@ var nextDir = (function() {
   };
 })();
 
-describe('abstract-fs', function() {
+describe('System', function() {
   var dirPath = undefined;
   var dir = undefined;
 
