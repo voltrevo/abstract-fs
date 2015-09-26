@@ -8,7 +8,7 @@ var path = require('path');
 
 // local modules
 var abstractFs = require('../lib/index.js');
-var testAfs = require('./generators/abstract-fs/dir.js');
+var describeDir = require('./describers/abstract-fs/dir.js');
 var TestDirPath = require('./util/TestDirPath.js');
 
 // transformed modules
@@ -42,7 +42,7 @@ describe('System', function() {
     });
   });
 
-  testAfs(
+  describeDir(
     function() {
       return TestDirPath().then(abstractFs.System);
     },
