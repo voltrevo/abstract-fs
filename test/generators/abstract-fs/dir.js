@@ -6,7 +6,7 @@
 var assert = require('assert');
 
 // local modules
-var thenChain = require('../util/thenChain.js');
+var thenChain = require('../../util/thenChain.js');
 
 var dir = undefined;
 
