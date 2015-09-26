@@ -6,8 +6,8 @@
 var assert = require('assert');
 
 // local modules
-var bind = require('../../util/bind.js');
-var thenChain = require('../../util/thenChain.js');
+var bind = require('../util/bind.js');
+var thenChain = require('../util/thenChain.js');
 
 var negate = function(x) {
   assert(typeof x === 'boolean');

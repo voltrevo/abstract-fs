@@ -8,7 +8,7 @@ var path = require('path');
 
 // local modules
 var abstractFs = require('../lib/index.js');
-var describeDir = require('./describers/abstract-fs/dir.js');
+var describeDir = require('./describers/dir.js');
 var TestDirPath = require('./util/TestDirPath.js');
 
 // transformed modules
