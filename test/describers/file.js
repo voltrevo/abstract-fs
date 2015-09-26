@@ -5,6 +5,9 @@
 // core modules
 var assert = require('assert');
 
+// community modules
+var noThrow = require('no-throw');
+
 // local modules
 var bind = require('../util/bind.js');
 var thenChain = require('../util/thenChain.js');
@@ -49,6 +52,16 @@ module.exports = function(name, File) {
         file.exists,
         negate,
         assert
+      );
+    });
+
+    it('throws if you try to write a non-buffer', function() {
+      assert.deepEqual(
+        noThrow(file.write)('not a buffer'),
+        {
+          error: new Error('file.write argument must be a buffer'),
+          value: undefined
+        }
       );
     });
   });
