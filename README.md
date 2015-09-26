@@ -12,9 +12,7 @@ $ npm install --save abstract-fs
 ## Usage
 
 ```js
-var abstractFs = require('abstract-fs');
-
-abstractFs('Rainbow');
+// TODO
 ```
 
 ## License
