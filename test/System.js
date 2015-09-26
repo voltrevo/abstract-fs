@@ -42,7 +42,10 @@ describe('System', function() {
     });
   });
 
-  testAfs(function() {
-    return TestDirPath().then(abstractFs.System);
-  });
+  testAfs(
+    function() {
+      return TestDirPath().then(abstractFs.System);
+    },
+    2
+  );
 });

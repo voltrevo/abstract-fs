@@ -8,12 +8,19 @@ var assert = require('assert');
 // local modules
 var describeFile = require('./file.js');
 
-module.exports = function(Dir) {
+var describeDir = function(Dir, depth) {
+  assert(typeof depth === 'number');
+  assert(0 <= depth && depth <= 5);
+
+  if (depth === 0) {
+    return;
+  }
+
   describe('implements empty dir', function() {
     var dir = undefined;
 
     beforeEach(function() {
-      return Dir().then(function(d) {
+      return Promise.resolve(Dir()).then(function(d) {
         dir = d;
       });
     });
@@ -55,6 +62,13 @@ module.exports = function(Dir) {
       describeFile('foo/bar', function() {
         return dir.File('foo/bar');
       });
+
+      describeDir(
+        function() { return foodir; },
+        depth - 1
+      );
     });
   });
 };
+
+module.exports = describeDir;
