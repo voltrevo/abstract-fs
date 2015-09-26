@@ -1,10 +1,10 @@
 'use strict';
 
-module.exports = function(firstPromise, thenFunctions) {
+module.exports = function(first, thenFunctions) {
   return thenFunctions.reduce(
     function(currPromise, thenFunction) {
       return currPromise.then(thenFunction);
     },
-    firstPromise
+    Promise.resolve(first)
   );
 };
