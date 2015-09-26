@@ -6,6 +6,7 @@
 var assert = require('assert');
 
 // local modules
+var bind = require('../../util/bind.js');
 var thenChain = require('../../util/thenChain.js');
 
 var negate = function(x) {
@@ -24,21 +25,24 @@ module.exports = function(name, File) {
     });
 
     it('doesn\'t exist', function() {
-      return thenChain(file.exists(), [
+      return thenChain(undefined, [
+        file.exists,
         negate,
         assert
       ]);
     });
 
     it('can be created', function() {
-      return thenChain(file.write(new Buffer('')), [
+      return thenChain(undefined, [
+        bind(file.write, [new Buffer('')]),
         file.exists,
         assert
       ]);
     });
 
     it('file can be deleted', function() {
-      return thenChain(file.write(new Buffer('')), [
+      return thenChain(undefined, [
+        bind(file.write, [new Buffer('')]),
         file.exists,
         assert,
         file.delete,
