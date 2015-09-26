@@ -9,7 +9,7 @@ var assert = require('assert');
 var describeFile = require('./file.js');
 
 module.exports = function(Dir) {
-  describe('implements empty abstract-fs', function() {
+  describe('implements empty dir', function() {
     var dir = undefined;
 
     beforeEach(function() {
