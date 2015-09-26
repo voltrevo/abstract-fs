@@ -36,6 +36,19 @@ var describeDir = function(Dir, depth) {
       assert(dir.exists === undefined);
     });
 
+    it('file.exists throws an error when the path contains a file', function() {
+      var caught = false;
+
+      return dir.File('foo').write(new Buffer('foo-content')).then(
+        // Should throw an error because foo is a file not a directory.
+        dir.File('foo/bar').exists
+      ).catch(function() {
+        caught = true; // What this error should look like in abstract-fs has not been decided.
+      }).then(function() {
+        assert(caught);
+      });
+    });
+
     describeFile('foo', function() {
       return dir.File('foo');
     });
