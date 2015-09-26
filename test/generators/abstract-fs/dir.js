@@ -32,5 +32,9 @@ module.exports = function(Dir) {
     describeFile('foo', function() {
       return dir.File('foo');
     });
+
+    describeFile('foo/bar', function() {
+      return dir.File('foo/bar');
+    });
   });
 };
