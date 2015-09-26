@@ -29,7 +29,7 @@ var describeDir = function(Dir, depth) {
       dir = undefined;
     });
 
-    it('doesn\'t have an exist function', function() {
+    it('doesn\'t have an exists function', function() {
       // Directories don't have 'existence' in abstract-fs. No distinction is made between an empty
       // directory and a directory that doesn't exist. This results in a simpler abstraction where
       // we only care about files.
@@ -46,6 +46,21 @@ var describeDir = function(Dir, depth) {
         caught = true; // What this error should look like in abstract-fs has not been decided.
       }).then(function() {
         assert(caught);
+      });
+    });
+
+    it('can enumerate its contents', function() {
+      return Promise.all([
+        dir.File('foo/bar').write(new Buffer('')),
+        dir.File('baz').write(new Buffer('')),
+        dir.File('boom').write(new Buffer(''))
+      ]).then(
+        dir.contents
+      ).then(function(contents) {
+        assert.deepEqual(contents, {
+          dirs: ['foo'],
+          files: ['baz', 'boom']
+        });
       });
     });
 
