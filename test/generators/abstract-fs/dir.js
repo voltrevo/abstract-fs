@@ -33,8 +33,28 @@ module.exports = function(Dir) {
       return dir.File('foo');
     });
 
-    describeFile('foo/bar', function() {
-      return dir.File('foo/bar');
+    describe('foo directory', function() {
+      var foodir = undefined;
+
+      beforeEach(function() {
+        foodir = dir.Dir('foo');
+      });
+
+      afterEach(function() {
+        foodir = undefined;
+      });
+
+      it('sees bar created from the parent directory', function() {
+        return dir.File('foo/bar').write(new Buffer('bar-content')).then(function() {
+          return foodir.File('bar').read();
+        }).then(function(barContent) {
+          assert(barContent.toString() === 'bar-content');
+        });
+      });
+
+      describeFile('foo/bar', function() {
+        return dir.File('foo/bar');
+      });
     });
   });
 };
