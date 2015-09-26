@@ -31,20 +31,6 @@ module.exports = function(Dir) {
       dir = undefined;
     });
 
-    it('doesn\'t exist yet', function() {
-      return thenChain(dir.exists(), [
-        negate,
-        assert
-      ]);
-    });
-
-    it('can be created', function() {
-      return thenChain(dir.create(), [
-        dir.exists,
-        assert
-      ]);
-    });
-
     describe('file foo', function() {
       var foo = undefined;
 

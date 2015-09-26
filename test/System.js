@@ -34,14 +34,6 @@ describe('System', function() {
     dir = undefined;
   });
 
-  it('can create a directory', function() {
-    return dir.create().then(function() {
-      return fs.lstat(testDirPath);
-    }).then(function(stats) {
-      assert(stats.isDirectory());
-    });
-  });
-
   it('can write a file to a directory', function() {
     return dir.File('foo').write(new Buffer('bar')).then(function() {
       return fs.readFile(path.join(testDirPath, 'foo'));
