@@ -25,23 +25,23 @@ module.exports = function(name, File) {
     });
 
     it('doesn\'t exist', function() {
-      return thenChain(undefined, [
+      return thenChain(
         file.exists,
         negate,
         assert
-      ]);
+      );
     });
 
     it('can be created', function() {
-      return thenChain(undefined, [
+      return thenChain(
         bind(file.write, [new Buffer('')]),
         file.exists,
         assert
-      ]);
+      );
     });
 
     it('file can be deleted', function() {
-      return thenChain(undefined, [
+      return thenChain(
         bind(file.write, [new Buffer('')]),
         file.exists,
         assert,
@@ -49,7 +49,7 @@ module.exports = function(name, File) {
         file.exists,
         negate,
         assert
-      ]);
+      );
     });
   });
 };

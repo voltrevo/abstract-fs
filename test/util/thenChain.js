@@ -1,10 +1,12 @@
 'use strict';
 
-module.exports = function(first, thenFunctions) {
+module.exports = function() {
+  var thenFunctions = Array.prototype.slice.apply(arguments);
+
   return thenFunctions.reduce(
     function(currPromise, thenFunction) {
       return currPromise.then(thenFunction);
     },
-    Promise.resolve(first)
+    Promise.resolve(undefined)
   );
 };
