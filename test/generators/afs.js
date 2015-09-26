@@ -31,6 +31,13 @@ module.exports = function(Dir) {
       dir = undefined;
     });
 
+    it('doesn\'t have an exist function', function() {
+      // Directories don't have 'existence' in abstract-fs. No distinction is made between an empty
+      // directory and a directory that doesn't exist. This results in a simpler abstraction where
+      // we only care about files.
+      assert(dir.exists === undefined);
+    });
+
     describe('file foo', function() {
       var foo = undefined;
 
