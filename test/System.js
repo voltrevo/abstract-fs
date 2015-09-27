@@ -7,7 +7,7 @@ var assert = require('assert');
 var path = require('path');
 
 // local modules
-var abstractFs = require('../lib/index.js');
+var abstractFs = require('../lib/index.js'); // TODO: require System only
 var describeDir = require('./describers/dir.js');
 var describeFile = require('./describers/file.js');
 var TestDirPath = require('./util/TestDirPath.js');
