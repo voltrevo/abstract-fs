@@ -86,6 +86,18 @@ var describeDir = function(Dir, depth) {
       });
     });
 
+    it('writing a file where the path contains a dir throws', function() {
+      var caught = false;
+
+      return dir.File('foo/bar').write(new Buffer('')).then(function() {
+        return dir.File('foo').write(new Buffer(''));
+      }).catch(function() {
+        caught = true;
+      }).then(function() {
+        assert(caught);
+      });
+    });
+
     describeFile('foo', function() {
       return dir.File('foo');
     });
