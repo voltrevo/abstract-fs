@@ -29,6 +29,15 @@ var describeDir = function(Dir, depth) {
       dir = undefined;
     });
 
+    it('contains nothing', function() {
+      return dir.contents().then(function(contents) {
+        assert.deepEqual(contents, {
+          dirs: [],
+          files: []
+        });
+      });
+    });
+
     it('doesn\'t have an exists function', function() {
       // Directories don't have 'existence' in abstract-fs. No distinction is made between an empty
       // directory and a directory that doesn't exist. This results in a simpler abstraction where
