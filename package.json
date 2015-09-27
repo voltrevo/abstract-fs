@@ -1,6 +1,6 @@
 {
   "name": "abstract-fs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "An abstract filesystem that can be backed in-memory or by the real filesystem.",
   "homepage": "https://github.com/voltrevo/abstract-fs#readme",
   "repository": "voltrevo/abstract-fs",
