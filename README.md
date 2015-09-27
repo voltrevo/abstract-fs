@@ -20,14 +20,39 @@ var abstractFs = require('abstract-fs');
 
 ### System
 
-#### Get a reference to a file
+These methods are synchronous because all they do is wrap the path you provide. This also means that when directories or files are moved, they won't be followed, because the abstraction doesn't know about any underlying filesystem stuff, it only cares about the path you give it.
+
+#### Get a directory abstraction
 
 ``` js
-// This refers to the path to foobar, so if it gets moved, it won't be followed
+var log = abstractFs.System.Dir('log');
+```
+
+#### Get a file abstraction
+
+``` js
 var foobar = abstractFs.System.File('foobar');
 ```
 
-#### Write to a file
+### Memory
+
+*Not yet implemented.*
+
+#### Get a directory abstraction
+
+``` js
+// var log = abstractFs.Memory.Dir('log');
+```
+
+#### Get a file abstraction
+
+``` js
+// var foobar = abstractFs.Memory.File('foobar');
+```
+
+### File
+
+#### Write
 
 ``` js
 foobar.write(
@@ -35,7 +60,7 @@ foobar.write(
 );
 ```
 
-#### Read from a file
+#### Read
 
 ``` js
 foobar.read().then(function(foobarData) {
@@ -43,7 +68,7 @@ foobar.read().then(function(foobarData) {
 });
 ```
 
-#### Delete a file
+#### Delete
 
 ``` js
 foobar.delete().then(function() {
@@ -51,7 +76,7 @@ foobar.delete().then(function() {
 });
 ```
 
-#### Check file existence
+#### Exists
 
 ``` js
 foobar.exists().then(function(exists) {
