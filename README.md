@@ -163,6 +163,18 @@ As far as `abstract-fs` is concerned, the directories were already there. When u
 
 Your mileage may vary if there is a pre-existing complex structure of empty directories or if something else is creating empty directories where `abstract-fs` is operating. `abstract-fs` is still experimental (although it is pretty well-tested), and this is especially true for this tricky situation. Please file an issue if you encounter any behaviour you feel should be adjusted.
 
+## TODO
+
+- Memory implementation.
+- Simple access to System dirs/files that are temporary using require('tmp').
+- LocalStorage implementation.
+- File wrapper transformation for appending.
+- Filesystem wrapper transformations e.g. utf-8, json, hash functions.
+- Listening to change events via fsevents/polling/etc.
+- Throttling/squashing change events.
+- Synchronization of filesystems. (Conflict resolution?)
+- Socket implementation.
+
 ## License
 
 MIT © [Andrew Morris](http://andrewmorris.io/)
