@@ -138,14 +138,14 @@ var writePromise = memoryFs.File('long/path/to/file').write(
   new Buffer('Hooray for eliminating edge cases!')
 );
 
-writePromise.then(
-  Promise.all([
+writePromise.then(function() {
+  return Promise.all([
     memoryFs.contents,
     memoryFs.Dir('long').contents,
     memoryFs.Dir('path').contents,
     memoryFs.Dir('to').contents
-  ])
-).then(function(contentsList) {
+  ]);
+}).then(function(contentsList) {
   console.log(contentsList); /*
     [ { dirs: ['long'], files: []       },
       { dirs: ['path'], files: []       },
