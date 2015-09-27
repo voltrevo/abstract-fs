@@ -132,7 +132,7 @@ abstractFs.Memory.Dir().Dir('any-random-new-path-here').contents().then(function
 This makes the silent 'creation' of directories needed to support a file at a location of your request a very natural thing:
 
 ``` js
-var memoryFs = abstractFs.Memory.Dir();
+var memoryFs = abstractFs.Memory.Dir(); // System will do this too.
 
 var writePromise = memoryFs.File('long/path/to/file').write(
   new Buffer('Hooray for eliminating edge cases!')
