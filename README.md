@@ -12,8 +12,51 @@ $ npm install --save abstract-fs
 
 ## Usage
 
-```js
-// TODO
+``` js
+'use strict';
+
+var abstractFs = require('abstract-fs');
+```
+
+### System
+
+#### Get a reference to a file
+
+``` js
+// This refers to the path to foobar, so if it gets moved, it won't be followed
+var foobar = abstractFs.System.File('foobar');
+```
+
+#### Write to a file
+
+``` js
+foobar.write(
+  new Buffer('Contents of foobar.\n')
+);
+```
+
+#### Read from a file
+
+``` js
+foobar.read().then(function(foobarData) {
+  console.log(foobarData.toString()); // Contents of foobar.
+});
+```
+
+#### Delete a file
+
+``` js
+foobar.delete().then(function() {
+  console.log('Finished deleting foobar.');
+});
+```
+
+#### Check file existence
+
+``` js
+foobar.exists().then(function(exists) {
+  console.log('foobar', (exists ? 'exists' : 'doesn\'t exist'));
+});
 ```
 
 ## License
