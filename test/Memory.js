@@ -1,6 +1,6 @@
 'use strict';
 
-/* global describe xdescribe */
+/* global describe */
 
 // local modules
 var Memory = require('../lib/index.js').Memory;
