@@ -45,6 +45,16 @@ module.exports = function(name, File) {
       });
     });
 
+    it('deleting throws because it doesn\'t exist', function() {
+      var caught = false;
+
+      return file.delete().catch(function() {
+        caught = true;
+      }).then(function() {
+        assert(caught);
+      });
+    });
+
     it('can be created', function() {
       return thenChain(
         bind(file.write, [new Buffer('')]),
