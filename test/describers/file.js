@@ -35,6 +35,16 @@ module.exports = function(name, File) {
       );
     });
 
+    it('reading throws because it doesn\'t exist', function() {
+      var caught = false;
+
+      return file.read().catch(function() {
+        caught = true;
+      }).then(function() {
+        assert(caught);
+      });
+    });
+
     it('can be created', function() {
       return thenChain(
         bind(file.write, [new Buffer('')]),
