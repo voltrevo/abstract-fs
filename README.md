@@ -41,13 +41,13 @@ var foobar = abstractFs.System.File('foobar');
 #### Get a directory abstraction
 
 ``` js
-// var log = abstractFs.Memory.Dir('log');
+// var log = abstractFs.Memory.Dir();
 ```
 
 #### Get a file abstraction
 
 ``` js
-// var foobar = abstractFs.Memory.File('foobar');
+// var foobar = abstractFs.Memory.File();
 ```
 
 ### Dir
@@ -121,7 +121,41 @@ foobar.exists().then(function(exists) {
 
 I've decided to make this abstraction not distinguish between empty directories and directories which don't exist. Git has this behaviour too. I think it results in a simpler abstraction. A filesystem cares about *files*, not directories. Directories only exist to contain files. There's actually a test that explicitly states that an abstract directory does not share the `.exists` method that a file provides.
 
-One way to think about it is that all possible directories always exist, and are just empty (except of course the finite number of directories that are non-empty). This makes the silent 'creation' of directories needed to support a file at a location of your request a very natural thing, because as far as `abstract-fs` is concerned, the directories were already there. When using the `System` backed implementation of `abstract-fs`, 'real' directories are created as necessary, and when deleting the last file of a directory, the directory is deleted too. The policy is to balance separating you from this distinction with being conservative about silent operations.
+One way to think about it is that all possible directories always exist, and are just empty (except of course the finite number of directories that are non-empty). Remembering that `.Dir(path)` doesn't mutate the filesystem in any way, you can actually ask for the contents of any new directory and see that it's empty:
+
+``` js
+abstractFs.Memory.Dir().Dir('any-random-new-path-here').contents().then(function(contents) {
+  console.log(contents); // { dirs: [], files: [] }
+});
+```
+
+This makes the silent 'creation' of directories needed to support a file at a location of your request a very natural thing:
+
+``` js
+var memoryFs = abstractFs.Memory.Dir();
+
+var writePromise = memoryFs.File('long/path/to/file').write(
+  new Buffer('Hooray for eliminating edge cases!')
+);
+
+writePromise.then(
+  Promise.all([
+    memoryFs.contents,
+    memoryFs.Dir('long').contents,
+    memoryFs.Dir('path').contents,
+    memoryFs.Dir('to').contents
+  ])
+).then(function(contentsList) {
+  console.log(contentsList); /*
+    [ { dirs: ['long'], files: []       },
+      { dirs: ['path'], files: []       },
+      { dirs: ['to']  , files: []       },
+      { dirs: []      , files: ['file'] } ]
+  */
+});
+```
+
+As far as `abstract-fs` is concerned, the directories were already there. When using the `System` backed implementation of `abstract-fs`, 'real' directories are created as necessary, and when deleting the last file of a directory, the directory is deleted too. The policy is to balance separating you from this distinction with being conservative about silent operations.
 
 Your mileage may vary if there is a pre-existing complex structure of empty directories or if something else is creating empty directories where `abstract-fs` is operating. `abstract-fs` is still experimental (although it is pretty well-tested), and this is especially true for this tricky situation. Please file an issue if you encounter any behaviour you feel should be adjusted.
 
