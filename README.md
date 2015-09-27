@@ -36,18 +36,18 @@ var foobar = abstractFs.System.File('foobar');
 
 ### Memory
 
-*Not yet implemented.*
+A pure javascript implementation. Asynchrony is only here to fulfill the same contract as other implementations.
 
 #### Get a directory abstraction
 
 ``` js
-// var log = abstractFs.Memory.Dir();
+var log = abstractFs.Memory.Dir();
 ```
 
 #### Get a file abstraction
 
 ``` js
-// var foobar = abstractFs.Memory.File();
+var foobar = abstractFs.Memory.File();
 ```
 
 ### Dir
