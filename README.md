@@ -121,7 +121,7 @@ foobar.exists().then(function(exists) {
 
 I've decided to make this abstraction not distinguish between empty directories and directories which don't exist. Git has this behaviour too. I think it results in a simpler abstraction. A filesystem cares about *files*, not directories. Directories only exist to contain files. There's actually a test that explicitly states that an abstract directory does not share the `.exists` method that a file provides.
 
-One way to think about it is that all possible directories always exist, and are just empty (except of course the finite number of directories that are non-empty). Remembering that `.Dir(path)` doesn't mutate the filesystem in any way, you can actually ask for the contents of any new directory and see that it's empty:
+One way to think about it is that all possible directories always exist, and are just empty (except of course the finite number of directories that are non-empty). Remembering that `.Dir(path)` doesn't mutate the filesystem in any way, you can actually ask for the contents of any directory (that hasn't been written to) and see that it's empty:
 
 ``` js
 abstractFs.Memory.Dir().Dir('any-random-new-path-here').contents().then(function(contents) {
