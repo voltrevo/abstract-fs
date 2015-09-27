@@ -9,6 +9,7 @@ var path = require('path');
 // local modules
 var abstractFs = require('../lib/index.js');
 var describeDir = require('./describers/dir.js');
+var describeFile = require('./describers/file.js');
 var TestDirPath = require('./util/TestDirPath.js');
 
 // transformed modules
@@ -113,5 +114,13 @@ describe('System', function() {
       },
       2
     );
+  });
+
+  describe('File', function() {
+    describeFile('direct-file', function() {
+      return TestDirPath().then(function(testDirPath) {
+        return abstractFs.System.File(path.join(testDirPath, 'direct-file'));
+      });
+    });
   });
 });
