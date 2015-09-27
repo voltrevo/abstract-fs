@@ -163,9 +163,220 @@ As far as `abstract-fs` is concerned, the directories were already there. When u
 
 Your mileage may vary if there is a pre-existing complex structure of empty directories or if something else is creating empty directories where `abstract-fs` is operating. `abstract-fs` is still experimental (although it is pretty well-tested), and this is especially true for this tricky situation. Please file an issue if you encounter any behaviour you feel should be adjusted.
 
+## Testing
+
+Staying on top of testing for this project is a high priority. There are some gaps in testing the private utilities, which should also probably be replaced with standard tools or made into their own modules, but the public api is very well tested. A key feature is that the Memory and System implementations are mostly fed into exactly the same tests. The System implementation has a few more to test that it successfully writes to the real filesystem.
+
+You can browse the test code in the `test` directory. Tests for the abstract api that are shared by Memory and System are generated using the code in `test/describers`.
+
+``` sh
+git clone git@github.com:voltrevo/abstract-fs.git
+cd abstract-fs
+npm install
+npm test
+```
+
+```
+> abstract-fs@0.0.2 test /Users/andrew/workspaces/abstract-apis/abstract-fs
+> gulp
+
+[23:02:46] Using gulpfile ~/workspaces/abstract-apis/abstract-fs/gulpfile.js
+[23:02:46] Starting 'static'...
+[23:02:46] Starting 'pre-test'...
+[23:02:47] Finished 'pre-test' after 1.44 s
+[23:02:47] Starting 'test'...
+
+
+  Memory
+    Dir
+      implements empty dir
+        ✓ contains nothing
+        ✓ doesn't have an exists function
+        ✓ after creating foo and bar, deleting foo does not delete bar
+        ✓ file.exists throws an error when the path contains a file
+        ✓ can enumerate its contents
+        ✓ writing a file where the path contains a dir throws
+        foo implements non-existent file
+          ✓ doesn't exist
+          ✓ reading throws because it doesn't exist
+          ✓ deleting throws because it doesn't exist
+          ✓ can be created
+          ✓ file can be deleted
+          ✓ throws if you try to write a non-buffer
+        foo directory
+          ✓ sees bar created from the parent directory
+          foo/bar implements non-existent file
+            ✓ doesn't exist
+            ✓ reading throws because it doesn't exist
+            ✓ deleting throws because it doesn't exist
+            ✓ can be created
+            ✓ file can be deleted
+            ✓ throws if you try to write a non-buffer
+          implements empty dir
+            ✓ contains nothing
+            ✓ doesn't have an exists function
+            ✓ after creating foo and bar, deleting foo does not delete bar
+            ✓ file.exists throws an error when the path contains a file
+            ✓ can enumerate its contents
+            ✓ writing a file where the path contains a dir throws
+            foo implements non-existent file
+              ✓ doesn't exist
+              ✓ reading throws because it doesn't exist
+              ✓ deleting throws because it doesn't exist
+              ✓ can be created
+              ✓ file can be deleted
+              ✓ throws if you try to write a non-buffer
+            foo directory
+              ✓ sees bar created from the parent directory
+              foo/bar implements non-existent file
+                ✓ doesn't exist
+                ✓ reading throws because it doesn't exist
+                ✓ deleting throws because it doesn't exist
+                ✓ can be created
+                ✓ file can be deleted
+                ✓ throws if you try to write a non-buffer
+    File
+      direct-file implements non-existent file
+        ✓ doesn't exist
+        ✓ reading throws because it doesn't exist
+        ✓ deleting throws because it doesn't exist
+        ✓ can be created
+        ✓ file can be deleted
+        ✓ throws if you try to write a non-buffer
+
+  System
+    Dir
+      ✓ can write a file to a directory
+      contents
+        directories only included when non-empty
+          ✓ single empty directory not included
+          ✓ directory with empty directory not included
+          ✓ directory with file included
+          ✓ directory with directory with file included
+      implements empty dir
+        ✓ contains nothing
+        ✓ doesn't have an exists function
+        ✓ after creating foo and bar, deleting foo does not delete bar
+        ✓ file.exists throws an error when the path contains a file
+        ✓ can enumerate its contents
+        ✓ writing a file where the path contains a dir throws
+        foo implements non-existent file
+          ✓ doesn't exist
+          ✓ reading throws because it doesn't exist
+          ✓ deleting throws because it doesn't exist
+          ✓ can be created
+          ✓ file can be deleted
+          ✓ throws if you try to write a non-buffer
+        foo directory
+          ✓ sees bar created from the parent directory
+          foo/bar implements non-existent file
+            ✓ doesn't exist
+            ✓ reading throws because it doesn't exist
+            ✓ deleting throws because it doesn't exist
+            ✓ can be created
+            ✓ file can be deleted
+            ✓ throws if you try to write a non-buffer
+          implements empty dir
+            ✓ contains nothing
+            ✓ doesn't have an exists function
+            ✓ after creating foo and bar, deleting foo does not delete bar
+            ✓ file.exists throws an error when the path contains a file
+            ✓ can enumerate its contents
+            ✓ writing a file where the path contains a dir throws
+            foo implements non-existent file
+              ✓ doesn't exist
+              ✓ reading throws because it doesn't exist
+              ✓ deleting throws because it doesn't exist
+              ✓ can be created
+              ✓ file can be deleted
+              ✓ throws if you try to write a non-buffer
+            foo directory
+              ✓ sees bar created from the parent directory
+              foo/bar implements non-existent file
+                ✓ doesn't exist
+                ✓ reading throws because it doesn't exist
+                ✓ deleting throws because it doesn't exist
+                ✓ can be created
+                ✓ file can be deleted
+                ✓ throws if you try to write a non-buffer
+    File
+      direct-file implements non-existent file
+        ✓ doesn't exist
+        ✓ reading throws because it doesn't exist
+        ✓ deleting throws because it doesn't exist
+        ✓ can be created
+        ✓ file can be deleted
+        ✓ throws if you try to write a non-buffer
+
+  afsPath
+    check
+      ✓ true for valid paths
+      ✓ false for invalid paths
+    validate
+      ✓ doesn't throw for valid paths
+      ✓ throws for invalid paths
+
+  bind
+    no args missing
+      ✓ returns a function which takes no arguments
+    single arg missing
+      ✓ binds last two args
+      ✓ binds outside args
+      ✓ binds first two args
+    two args missing
+      ✓ binds first arg
+      ✓ binds second arg
+      ✓ binds third arg
+    three args missing
+      ✓ calls the original function
+
+
+  105 passing (459ms)
+
+--------------------------|----------|----------|----------|----------|----------------|
+File                      |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
+--------------------------|----------|----------|----------|----------|----------------|
+ lib/                     |      100 |      100 |      100 |      100 |                |
+  afsPath.js              |      100 |      100 |      100 |      100 |                |
+  index.js                |      100 |      100 |      100 |      100 |                |
+ lib/Memory/              |      100 |      100 |      100 |      100 |                |
+  Dir.js                  |      100 |      100 |      100 |      100 |                |
+  File.js                 |      100 |      100 |      100 |      100 |                |
+  UnderlyingFilesystem.js |      100 |      100 |      100 |      100 |                |
+  index.js                |      100 |      100 |      100 |      100 |                |
+ lib/Memory/util/         |      100 |      100 |      100 |      100 |                |
+  delay.js                |      100 |      100 |      100 |      100 |                |
+  isPrefix.js             |      100 |      100 |      100 |      100 |                |
+ lib/System/              |      100 |       70 |      100 |      100 |                |
+  Dir.js                  |      100 |     62.5 |      100 |      100 |                |
+  File.js                 |      100 |      100 |      100 |      100 |                |
+  index.js                |      100 |      100 |      100 |      100 |                |
+ lib/util/                |      100 |      100 |      100 |      100 |                |
+  PromiseMap.js           |      100 |      100 |      100 |      100 |                |
+  handleError.js          |      100 |      100 |      100 |      100 |                |
+  promiseFilter.js        |      100 |      100 |      100 |      100 |                |
+  promiseSomeSerial.js    |      100 |      100 |      100 |      100 |                |
+--------------------------|----------|----------|----------|----------|----------------|
+All files                 |      100 |    91.67 |      100 |      100 |                |
+--------------------------|----------|----------|----------|----------|----------------|
+
+
+=============================== Coverage summary ===============================
+Statements   : 100% ( 230/230 )
+Branches     : 91.67% ( 33/36 )
+Functions    : 100% ( 91/91 )
+Lines        : 100% ( 229/229 )
+================================================================================
+[23:02:48] Finished 'test' after 923 ms
+[23:02:48] Starting 'coveralls'...
+[23:02:48] Finished 'coveralls' after 14 μs
+[23:02:50] Finished 'static' after 4.05 s
+[23:02:50] Starting 'default'...
+[23:02:50] Finished 'default' after 16 μs
+```
+
 ## TODO
 
-- Memory implementation.
 - Simple access to System dirs/files that are temporary using require('tmp').
 - LocalStorage implementation.
 - File wrapper transformation for appending.
