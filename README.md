@@ -74,11 +74,15 @@ log.contents().then(function(contents) {
 
 Probably need `log` to be non-empty for a clearer example ;-)
 
-```
-log.File('widget/debug').write(new Buffer('widget created'));
-log.File('stats').write(new Buffer('juicy stats'));
+``` js
+var writes = Promise.all([
+  log.File('widget/debug').write(new Buffer('widget created')),
+  log.File('stats').write(new Buffer('juicy stats'))
+]);
 
-log.contents().then(function(contents) {
+writes.then(
+  log.contents
+).then(function(contents) {
   console.log(contents); // { dirs: ['widget'], files: ['stats'] }
 });
 ```
