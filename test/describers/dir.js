@@ -45,6 +45,19 @@ var describeDir = function(Dir, depth) {
       assert(dir.exists === undefined);
     });
 
+    it('after creating foo and bar, deleting foo does not delete bar', function() {
+      return Promise.all([
+        dir.File('foo').write(new Buffer('')),
+        dir.File('bar').write(new Buffer(''))
+      ]).then(function() {
+        return dir.File('foo').delete();
+      }).then(function() {
+        return dir.File('bar').exists();
+      }).then(
+        assert
+      );
+    });
+
     it('file.exists throws an error when the path contains a file', function() {
       var caught = false;
 
