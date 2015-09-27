@@ -1,6 +1,6 @@
 'use strict';
 
-/* global describe */
+/* global describe xdescribe */
 
 // local modules
 var Memory = require('../lib/index.js').Memory;
@@ -8,7 +8,7 @@ var describeDir = require('./describers/dir.js');
 var describeFile = require('./describers/file.js');
 
 describe('Memory', function() {
-  describe('Dir', function() {
+  xdescribe('Dir', function() {
     describeDir(Memory.Dir, 2);
   });
 
