@@ -165,7 +165,7 @@ Your mileage may vary if there is a pre-existing complex structure of empty dire
 
 ## Testing
 
-Staying on top of testing for this project is a high priority. There are some gaps in testing the private utilities, which should also probably be replaced with standard tools or made into their own modules, but the public api is very well tested. A key feature is that the Memory and System implementations are mostly fed into exactly the same tests. The System implementation has a few more to test that it successfully writes to the real filesystem.
+Staying on top of testing for this project is a high priority. There are some gaps in testing the private utilities, which should also probably be replaced with standard tools or made into their own modules, but the public api is well tested. A key feature is that the Memory and System implementations are mostly fed into exactly the same tests. The System implementation has a few more to test that it successfully writes to the real filesystem.
 
 You can browse the test code in the `test` directory. Tests for the abstract api that are shared by Memory and System are generated using the code in `test/describers`.
 
